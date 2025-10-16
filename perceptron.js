@@ -1,3 +1,8 @@
+const seedrandom = require("seedrandom");
+const seed = "perc-1";
+
+seedrandom(seed, {global: true});
+
 const trainInputs = [
     [2, 7],
     [3, 6],
@@ -21,8 +26,8 @@ const weights = [0.1, -0.3];
 
 class Perceptron {
     constructor(learningRate = 0.1) {
-        this.weights = [0.1, -0.3];
-        this.bias = 0.5;
+        this.weights = Array(2).fill(0).map(() => Math.random() * 0.5 - 0.2);
+        this.bias = Math.random() * 0.5 - 0.2;
         this.learningRate = learningRate;
     }
 
@@ -72,9 +77,9 @@ class Perceptron {
     }
 }
 
-const perceptron = new Perceptron();
+const perceptron = new Perceptron(0.07);
 
-const EPOCHS = 50;
+const EPOCHS = 10;
 
 for (let epoch = 0; epoch < EPOCHS; epoch++) {
     perceptron.train(trainInputs, trainLabels);
