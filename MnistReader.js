@@ -10,7 +10,14 @@ function readIdxFile(filepath) {
     
     // label file
     if (magicNumber == 2049) {
-        console.log("Label file");
+        const labels = [];
+
+        for (let i = 0; i < numberOfItems; i++) {
+            labels.push(data.readUint8(offset));
+            offset += 1;
+        }
+
+        return {type: "labels", data: labels};
     } else {
         // image file
         const rows = data.readUint32BE(offset);
@@ -20,7 +27,8 @@ function readIdxFile(filepath) {
 }
 
 //readIdxFile("./datasets/mnist/train-images.idx3-ubyte");
-//readIdxFile("./datasets/mnist/train-images.idx1-ubyte");
+const trainLabels = readIdxFile("./datasets/mnist/train-labels.idx1-ubyte");
+console.log(trainLabels);
 
 // 0 0 1 0 1 0 1 0
 // FA
