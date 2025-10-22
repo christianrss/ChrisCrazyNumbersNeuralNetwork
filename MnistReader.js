@@ -5,7 +5,6 @@ function readIdxFile(filepath) {
     let offset = 0;
     const magicNumber = data.readUint32BE(offset);
 
-
     offset += 4;
     const numberOfItems = data.readUint32BE(offset);
     offset += 4;
