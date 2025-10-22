@@ -4,16 +4,23 @@ function readIdxFile(filepath) {
     const data = fs.readFileSync(filepath);
     let offset = 0;
     const magicNumber = data.readUint32BE(offset);
-
     offset += 4;
     const numberOfItems = data.readUint32BE(offset);
     offset += 4;
-    const rows = data.readUint32BE(offset);
-    offset += 4;
-    const cols = data.readUint32BE(offset);
+    
+    // label file
+    if (magicNumber == 2049) {
+        console.log("Label file");
+    } else {
+        // image file
+        const rows = data.readUint32BE(offset);
+        offset += 4;
+        const cols = data.readUint32BE(offset);
+    }
 }
 
-readIdxFile("./datasets/mnist/train-images.idx3-ubyte");
+//readIdxFile("./datasets/mnist/train-images.idx3-ubyte");
+//readIdxFile("./datasets/mnist/train-images.idx1-ubyte");
 
 // 0 0 1 0 1 0 1 0
 // FA
