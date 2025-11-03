@@ -48,15 +48,34 @@ function readIdxFile(filepath) {
     
 }
 
+const BATCH_SIZE = 5000;
+const MAX_BATCHES = 10;
+
 function saveData(labels, inputs, path) {
+    let batchTrackers = 0;
+
+    for (let i = 0; i < labels.length; i += BATCH_SIZE) {
+        const labelsBatch = labels.slice(i, i + BATCH_SIZE);
+        const inputsBatch = inputs.slice(i, i + BATCH_SIZE);
+        saveBatch(i / BATCH_SIZE, labelsBatch, inputsBatch, path);
+        batchTrackers++;
+
+        if (batchTrackers === MAX_BATCHES) {
+            break;
+        }
+    }
+
+}
+
+function saveBatch(batch, labels, inputs, path) {
     const data = {
         labels,
         inputs
     };
 
     try {
-        fs.writeFileSync(`${path}.json`, JSON.stringify(data, null, 0));
-        console.log(`File ${path}.json saved!`);
+        fs.writeFileSync(`${path}-${batch}.json`, JSON.stringify(data, null, 0));
+        console.log(`File ${path}-${batch}.json saved!`);
     } catch (e) {
         console.log(e.message);
     }
@@ -66,5 +85,6 @@ const testImages = readIdxFile("./datasets/mnist/t10k-images.idx3-ubyte");
 const testLabels = readIdxFile("./datasets/mnist/t10k-labels.idx1-ubyte");
 
 saveData(testLabels.data, testImages.data, "./datasets/mnist/test-data");
+//saveData(testLabels.data, testImages.data, "./frontend/public/mnist/test-data");
 
 console.log("Parsing End!");
