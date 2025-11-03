@@ -88,7 +88,7 @@ function saveTestingData() {
     const binaryLabels = testLabels.data.map((label) => label === 0 ? 1 : 0);
     const flatImages = testImages.data.map(image => image.flat());
 
-    saveData(binaryLabels, testImages.data, "./datasets/mnist/test-data");
+    saveData(binaryLabels, flatImages, "./datasets/mnist/test-data");
 }
 
 function saveTrainingData() {
@@ -96,8 +96,9 @@ function saveTrainingData() {
     const trainLabels = readIdxFile("./datasets/mnist/train-labels.idx1-ubyte");
 
     const binaryLabels = trainLabels.data.map((label) => label === 0 ? 1 : 0);
+    const flatImages = trainImages.data.map(image => image.flat());
 
-    saveData(binaryLabels, trainImages.data, "./datasets/mnist/train-data");
+    saveData(binaryLabels, flatImages, "./datasets/mnist/train-data");
     //saveData(testLabels.data, testImages.data, "./frontend/public/mnist/test-data");
 }
 
