@@ -55,6 +55,23 @@ class Perceptron {
 
         return (correct / inputs.length) * 100;
     }
+
+    saveModel(path) {
+        console.log("Preparing export");
+        const exportData = {
+            weights: this.weights,
+            bias: this.bias
+        };
+
+        const stringData = JSON.stringify(exportData, null, 2);
+
+        try {
+            fs.writeFileSync(path, stringData);
+            console.log("File save to: " + path);
+        } catch(e) {
+            console.log("Save failed: " + e.message);
+        }
+    }
 }
 
 function shuffleArrays(array1, array2) {
@@ -121,6 +138,7 @@ for (let epoch = 0; epoch < EPOCHS; epoch++) {
 const misclassified = findMisclassified(testInputs, testLabels, perceptron);
 displayMisclassified(misclassified);
 
+perceptron.saveModel("./datasets/mnist/public/binary-model.json");
 // Overfitting Detection: High training accuracy with low testing accuracy indicates overfitting.
 // The model performs well on training data but fails to generalize to new, unseen data.
 
