@@ -65,6 +65,25 @@ function shuffleArrays(array1, array2) {
     }
 }
 
+function findMisclassified(inputs, labels, perceptron) {
+    const misclassified = [];
+    for (let i = 0; i < inputs.length; i++) {
+        const prediction = perceptron.predict(inputs[i]);
+        if (prediction !== labels[i]) {
+            misclassified.push({index: i, image: inputs[i], label: labels[i], prediction});
+        }
+    }
+
+    return misclassified;
+}
+
+function displayMisclassified(misclassified) {
+    console.log(`Number of misclassified data: ${misclassified.length}`);
+    for (const item of misclassified) {
+        console.log(`Index: ${item.index}, label: ${item.label}, prediction: ${item.prediction}`);
+    }
+}
+
 const EPOCHS = 100;
 const TRAIN_BATCHES = 10;
 const TEST_BATCHES = 2;
@@ -80,7 +99,7 @@ for (let i = 0; i < TRAIN_BATCHES; i++) {
 }
 
 for (let i = 0; i < TEST_BATCHES; i++) {
-    const {inputs, labels} = JSON.parse(fs.readFileSync(`./datasets/mnist/train-data-${i}.json`, "utf8"));
+    const {inputs, labels} = JSON.parse(fs.readFileSync(`./datasets/mnist/test-data-${i}.json`, "utf8"));
     testInputs.push(...inputs);
     testLabels.push(...labels);
 }
@@ -99,7 +118,8 @@ for (let epoch = 0; epoch < EPOCHS; epoch++) {
     console.log('---------------------------------------');
 }
 
-
+const misclassified = findMisclassified(testInputs, testLabels, perceptron);
+displayMisclassified(misclassified);
 
 // Overfitting Detection: High training accuracy with low testing accuracy indicates overfitting.
 // The model performs well on training data but fails to generalize to new, unseen data.

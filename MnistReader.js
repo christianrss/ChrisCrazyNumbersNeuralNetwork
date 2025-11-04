@@ -89,6 +89,7 @@ function saveTestingData() {
     const flatImages = testImages.data.map(image => image.flat());
 
     saveData(binaryLabels, flatImages, "./datasets/mnist/test-data");
+    saveData(binaryLabels, testImages.data, "./datasets/mnist/public/test-data");
 }
 
 function saveTrainingData() {
@@ -99,7 +100,6 @@ function saveTrainingData() {
     const flatImages = trainImages.data.map(image => image.flat());
 
     saveData(binaryLabels, flatImages, "./datasets/mnist/train-data");
-    //saveData(testLabels.data, testImages.data, "./frontend/public/mnist/test-data");
 }
 
 saveTestingData();
