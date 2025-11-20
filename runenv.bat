@@ -1,1 +1,1 @@
-docker run -it -v %cd%:/app chris-nn-env
+docker run -it -p 3001:3001 -v %cd%:/app chris-nn-env

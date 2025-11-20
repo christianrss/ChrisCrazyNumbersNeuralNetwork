@@ -6,4 +6,6 @@ RUN apt-get upgrade -y
 VOLUME /app
 WORKDIR /app
 
+EXPOSE 3001
+
 CMD ["/bin/bash"]
