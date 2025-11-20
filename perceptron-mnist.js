@@ -6,8 +6,8 @@ seedrandom(seed, {global: true});
 
 class Perceptron {
     constructor(inputSize, learningRate = 0.1) {
-        this.weights = Array(784).fill(0).map(() => Math.random() * 0.3 - 0.1);
-        this.bias = Math.random() * 0.3 - 0.1;
+        this.weights = Array(inputSize).fill(0).map(() => Math.random() * 0.2 - 0.1);
+        this.bias = Math.random() * 0.2 - 0.1;
         this.learningRate = learningRate;
     }
 
@@ -105,7 +105,7 @@ function normalizeData(data) {
     return data.map(input => input.map(pixel => pixel / 255.0));
 }
 
-const EPOCHS = 21;
+const EPOCHS = 90;
 const TRAIN_BATCHES = 10;
 const TEST_BATCHES = 2;
 const INPUT_SIZE = 28 * 28;
@@ -124,6 +124,11 @@ for (let i = 0; i < TEST_BATCHES; i++) {
     testInputs.push(...normalizeData(inputs));
     testLabels.push(...labels);
 }
+
+const {inputs, labels} = JSON.parse(fs.readFileSync(`./datasets/mnist/misclassified-data.json`, "utf8"));
+
+trainInputs.push(...inputs.map(image => image.map(pixel => pixel > 20 ? pixel: 0)));
+trainLabels.push(...labels);
 
 const perceptron = new Perceptron(INPUT_SIZE, 0.01);
 
