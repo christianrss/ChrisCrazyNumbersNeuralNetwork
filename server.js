@@ -42,8 +42,6 @@ app.post("/save-misclassified", (req, res) => {
             });
         }
     });
-
-    res.status(200).send("Hello World");
 });
 
 app.listen(PORT, () => {
