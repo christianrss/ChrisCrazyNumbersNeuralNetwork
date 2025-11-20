@@ -81,7 +81,7 @@ function saveBatch(batch, labels, inputs, path) {
     }
 }
 
-const PIXEL_KEEP_TRESHHOLD = 0;
+const PIXEL_KEEP_TRESHOLD = 20;
 
 function saveTestingData() {
     const testImages = readIdxFile("./datasets/mnist/t10k-images.idx3-ubyte");
@@ -89,7 +89,7 @@ function saveTestingData() {
 
     const processedImages = testImages.data.map(image => 
         image.map(row =>
-            row.map(pixel => pixel > PIXEL_KEEP_TRESHHOLD ? pixel : 0)
+            row.map(pixel => pixel > PIXEL_KEEP_TRESHOLD ? pixel : 0)
         )
     );
 
@@ -107,7 +107,7 @@ function saveTrainingData() {
     const binaryLabels = trainLabels.data.map((label) => label === 0 ? 1 : 0);
     const flatImages = trainImages.data
         .map(image =>
-            image.flat().map(pixel => pixel > PIXEL_KEEP_TRESHHOLD ? pixel : 0)
+            image.flat().map(pixel => pixel > PIXEL_KEEP_TRESHOLD ? pixel : 0)
         );
 
     saveData(binaryLabels, flatImages, "./datasets/mnist/train-data");
